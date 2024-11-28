@@ -1,68 +1,64 @@
 import { gql } from "@apollo/client";
 
 export const login = gql`
-  mutation login(email: string!, password:string!) {
+  mutation Mutation($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       token
-      user{
-       id: string
-  username: string!
-  email: string!
-  password: string!
-  savedBooks: Book[]
-  bookCount: number
+      user {
+        email
+        username
       }
-      email
-      password
     }
   }
 `;
 
 export const addUser = gql`
-  mutation addUser(username: string!, email: string!, password: string!) {
+  mutation AddUser($username: String!, $email: String!, $password: String!) {
     addUser(username: $username, email: $email, password: $password) {
-    token
-      user{
-       id: string
-  username: string!
-  email: string!
-  password: string!
-  savedBooks: Book[]
-  bookCount: number
+      token
+      user {
+        username
+        email
       }
-      email
-      password
     }
+  }
 `;
 export const saveBook = gql`
-mutation saveBook(authors: string[],description: string!, title: string!, bookId: string!, image: string, link: string) {
-saveBook(authors: $authors ,description: $description, title: $title, bookId: $bookId, image: $image, link: $link) {
-token
-user{
-id: string
-  username: string!
-  email: string!
-  password: string!
-  savedBooks: Book[]
-  bookCount: number
-}
-  email
-  password
-}
+  mutation SaveBook(
+    $description: String!
+    $title: String!
+    $bookId: String!
+    $authors: [String]
+    $image: String
+    $link: String
+  ) {
+    saveBook(
+      description: $description
+      title: $title
+      bookId: $bookId
+      authors: $authors
+      image: $image
+      link: $link
+    ) {
+      username
+      email
+      savedBooks {
+        bookId
+        title
+        authors
+        description
+        image
+        link
+      }
+    }
+  }
 `;
 export const REMOVE_BOOK = gql`
-mutation removeBook(bookId: string!) {
-removeBook(bookId: $bookId)
-token
-user{
-id: string
-  username: string!
-  email: string!
-  password: string!
-  savedBooks: Book[]
-  bookCount: number
-}
-  email
-  password
-}
-  `;
+  mutation RemoveBook($bookId: String!) {
+    removeBook(bookId: $bookId) {
+      bookCount
+      email
+      username
+    }
+  }
+`;

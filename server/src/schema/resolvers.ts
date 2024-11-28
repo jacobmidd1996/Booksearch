@@ -64,14 +64,11 @@ const resolvers = {
       );
       return foundUser;
     },
-    saveBook: async (
-      _parent: any,
-      { bookData }: { bookData: BookDataArgs },
-      context: any
-    ) => {
+    saveBook: async (_parent: any, args: BookDataArgs, context: any) => {
+      console.log(args);
       const foundUser = await User.findByIdAndUpdate(
         { _id: context.user._id },
-        { $push: { savedBooks: { bookData } } },
+        { $push: { savedBooks: { ...args } } },
         { new: true }
       );
       return foundUser;
