@@ -20,14 +20,20 @@ export const QUERY_SINGLE_PROFILE = gql`
   }
 `;
 
-export const QUERY_ME = gql`
+export const GET_ME = gql`
   {
     me {
-      id
+      _id
       username
       email
-      password
-      savedBooks
+      savedBooks {
+        bookId
+        title
+        authors
+        description
+        image
+        link
+      }
       bookCount
     }
   }

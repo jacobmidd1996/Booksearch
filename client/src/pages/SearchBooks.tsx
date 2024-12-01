@@ -4,26 +4,12 @@ import { Container, Col, Form, Button, Card, Row } from "react-bootstrap";
 
 import Auth from "../utils/auth";
 import { saveBookIds, getSavedBookIds } from "../utils/localStorage";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import type { Book } from "../models/Book";
 import type { GoogleAPIBook } from "../models/GoogleAPIBook";
 
-const SAVE_BOOK = gql`
-  mutation SaveBook($book: BookInput!) {
-    saveBook(book: $book) {
-      _id
-      username
-      savedBooks {
-        bookId
-        title
-        authors
-        description
-        image
-      }
-    }
-  }
-`;
-
+import { SAVE_BOOK } from "../utils/mutations";
+// import { GET_ME } from "../utils/queries";
 const SearchBooks = () => {
   const [searchedBooks, setSearchedBooks] = useState<Book[]>([]);
   const [searchInput, setSearchInput] = useState("");
@@ -82,6 +68,13 @@ const SearchBooks = () => {
     try {
       const { data } = await saveBook({
         variables: { book: bookToSave },
+        // update: (cache) => {
+        //   const me: any = cache.readQuery({ query: GET_ME });
+        //   cache.writeQuery({
+        //     query: GET_ME,
+        //     data: { me: { ...me, savedBooks: [...me.savedBooks, bookToSave] } },
+        //   });
+        // },
       });
 
       console.log("Saved book:", data);
