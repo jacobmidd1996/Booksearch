@@ -13,13 +13,11 @@ const SavedBooks = () => {
 
   const handleDeleteBook = async (bookId: string) => {
     try {
-      const { data } = await removeBook({
+      await removeBook({
         variables: { bookId },
       });
 
-      if (data?.removeBook) {
-        removeBookId(bookId);
-      }
+      removeBookId(bookId);
     } catch (err) {
       console.error(err);
     }
